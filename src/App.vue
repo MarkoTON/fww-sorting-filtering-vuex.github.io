@@ -1,8 +1,11 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+  <div id="app" class="container">
+    <h1 class="border-bottom">FACTORY WORLD WIDE</h1>
+    
+    <div class="row">
+      <router-view/>
+    </div>
+  </div><!-- #app .container -->
 </template>
 
 <script>
@@ -12,12 +15,5 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
