@@ -71,7 +71,7 @@ export default {
     userInfo(item){
       console.log(item);
     },
-    ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry'])
+    ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry']),
   },
   beforeMount() {
     // We are calling posts on beforeMounted
