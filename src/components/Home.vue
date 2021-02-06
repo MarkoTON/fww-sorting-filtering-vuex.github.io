@@ -6,27 +6,27 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
-              <th scope="col" class="clickable" @click="sortByName" v-on:click="sortOrderName = !sortOrderName">
+              <th scope="col" class="clickable" @click="sortName">
                 Full Name 
                 <i class=" fas" :class="{'fa-sort-alpha-down' : !sortOrderName,'fa-sort-alpha-up': sortOrderName }"></i>
               </th>
-              <th scope="col" class="clickable" @click="sortByBalance" v-on:click="sortOrderBalance = !sortOrderBalance">
+              <th scope="col" class="clickable" @click="sortBalance">
                 Balance 
                 <i class=" fas " :class="{'fa-sort-amount-down' : !sortOrderBalance,'fa-sort-amount-up': sortOrderBalance }"></i>
               </th>
-              <th scope="col" class="clickable" @click="sortByActive" v-on:click="sortOrderActive = !sortOrderActive" >
+              <th scope="col" class="clickable" @click="sortActive">
                 Active 
                 <i class=" fas " :class="{'fa-toggle-on' : !sortOrderActive,'fa-toggle-off': sortOrderActive }"></i>
               </th>
-              <th scope="col" class="clickable" @click="sortByRegistered" v-on:click="sortOrderDate = !sortOrderDate">
+              <th scope="col" class="clickable" @click="sortRegistered">
                 Registered 
-                <i class=" fas " :class="{'fa-sort-numeric-up' : !sortOrderDate,'fa-sort-numeric-down': sortOrderDate }"></i>
+                <i class=" fas " :class="{'fa-sort-numeric-up' : !sortOrderRegistraded,'fa-sort-numeric-down': sortOrderRegistraded }"></i>
               </th>
-              <th scope="col" class="clickable" @click="sortByState" v-on:click="sortOrderState = !sortOrderState">
+              <th scope="col" class="clickable" @click="sortState">
                 State 
                 <i class=" fas " :class="{'fa-sort-alpha-down' : !sortOrderState,'fa-sort-alpha-up': sortOrderState }"></i>
               </th>
-              <th scope="col" class="clickable" @click="sortByCountry" v-on:click="sortOrderCountry = !sortOrderCountry" >
+              <th scope="col" class="clickable" @click="sortCountry">
                 Country 
                 <i class=" fas " :class="{'fa-sort-alpha-down' : !sortOrderCountry,'fa-sort-alpha-up': sortOrderCountry }"></i>
               </th>
@@ -59,8 +59,8 @@ export default {
       sortOrderName: false,
       sortOrderBalance: false,
       sortOrderActive: false,
+      sortOrderRegistraded: false,
       sortOrderState: false,
-      sortOrderDate: false,
       sortOrderCountry: false
     }
   },
@@ -72,6 +72,30 @@ export default {
       console.log(item);
     },
     ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry']),
+    sortName(){
+      this.sortByName();
+      this.sortOrderName = !this.sortOrderName;
+    },
+    sortBalance(){
+      this.sortByBalance();
+      this.sortOrderBalance = !this.sortOrderBalance;
+    },
+    sortActive(){
+      this.sortByActive();
+      this.sortOrderActive = !this.sortOrderActive;
+    },
+    sortState(){
+      this.sortByState();
+      this.sortOrderState = !this.sortOrderState;
+    },
+    sortRegistered(){
+      this.sortByRegistered();
+      this.sortOrderRegistraded = !this.sortOrderRegistraded;
+    },
+    sortCountry(){
+      this.sortByCountry();
+      this.sortOrderCountry = !this.sortOrderCountry;
+    }
   },
   beforeMount() {
     // We are calling posts on beforeMounted
