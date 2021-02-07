@@ -13,7 +13,9 @@ export default new Vuex.Store({
     byState: null,
     byRegistered: null,
     byCountry: null,
-    filterUserData: []
+    filterUserData: [],
+    currentPage: 0,
+    pageSize: 200
   },
   mutations: {
     SET_USERS_FROM_API(state, users) {
@@ -45,7 +47,7 @@ export default new Vuex.Store({
     sortByName(state){
       var order = !state.byName;
       state.byName = !state.byName;
-      state.usersJSON.sort(function (a, b) {
+      state.filterUserData.sort(function (a, b) {
         var nameA = a.fullName.toUpperCase(); 
         var nameB = b.fullName.toUpperCase(); 
         if(order){
@@ -66,7 +68,7 @@ export default new Vuex.Store({
     sortByBalance(state){
       var order = !state.byBalance;
       state.byBalance = !state.byBalance;
-      state.usersJSON.sort(function (a, b) {
+      state.filterUserData.sort(function (a, b) {
         var balanceA = parseFloat(a.balance.substring(1).replace(",","").replace(".",""))
         var balanceB = parseFloat(b.balance.substring(1).replace(",","").replace(".",""))
         if(order){
@@ -79,7 +81,7 @@ export default new Vuex.Store({
     sortByActive(state){
       var order = !state.byActive;
       state.byActive = !state.byActive;
-      state.usersJSON.sort(function(x, y) {
+      state.filterUserData.sort(function(x, y) {
         if(order){
           return (x.isActive === y.isActive) ? 0 : x.isActive ? 1 : -1;
         } else {
@@ -90,7 +92,7 @@ export default new Vuex.Store({
     sortByRegistered(state){
       var order = state.byRegistered;
       state.byRegistered = !state.byRegistered;
-      state.usersJSON.sort(function (a, b) {
+      state.filterUserData.sort(function (a, b) {
         var registeredA = a.registered; 
         var registeredB = b.registered; 
         if(order){
@@ -103,7 +105,7 @@ export default new Vuex.Store({
     sortByState(state){
       var order = !state.byState;
       state.byState = !state.byState;
-      state.usersJSON.sort(function (a, b) {
+      state.filterUserData.sort(function (a, b) {
         var stateA = a.name.toUpperCase(); 
         var stateB = b.name.toUpperCase(); 
         if(order){
@@ -124,7 +126,7 @@ export default new Vuex.Store({
     sortByCountry(state){
       var order = !state.byCountry;
       state.byCountry = !state.byCountry;
-      state.usersJSON.sort(function (a, b) {
+      state.filterUserData.sort(function (a, b) {
         var countryA = a.country.toUpperCase(); 
         var countryB = b.country.toUpperCase(); 
         if(order){
@@ -183,7 +185,21 @@ export default new Vuex.Store({
           state.filterUserData = storeFilterData;
         }
       }
-    }
+    },
+    updatePage(state,pageNumber) {
+      state.currentPage = pageNumber;
+      state.updateVisibleUsers();
+    },
+    updateVisibleUsers(state,payload) {
+      state.pageSize = payload;
+      console.log(payload)
+      state.filterUserData = state.usersJSON.slice(state.currentPage * state.pageSize, (state.currentPage * state.pageSize) + state.pageSize);
+
+      // if we have 0 visible todos, go back a page
+      if (state.filterUserData.length == 0 && state.currentPage > 0) {
+        this.updatePage(state.currentPage -1);
+      }
+    },
   },
   actions: {
     getPosts({ commit }) {

@@ -7,15 +7,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'pagination',
-  props: ['stateUsers', 'currentPage', 'pageSize'],
+  props: ['currentPage', 'pageSize'],
   methods: {
+    ...mapGetters(['allUsersSorted']),
     updatePage(pageNumber) {
       this.$emit('page-update', pageNumber);
     },
     totalPages() {
-      return Math.ceil(this.stateUsers.length / this.pageSize);
+      return Math.ceil(this.allUsersSorted.length / this.pageSize);
     },
     showPreviousLink() {
       return this.currentPage == 0 ? false : true;

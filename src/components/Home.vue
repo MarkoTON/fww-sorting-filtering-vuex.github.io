@@ -1,5 +1,23 @@
 <template>
   <div class="home container">
+    <div class="mr-2">
+      <select class="form-control mr-1 selectStatus clickable" v-model="pageSize" @click="updateVisibleUsersHome" >
+        <option v-bind:value="50">50 per page</option>
+        <option v-bind:value="100">100 per page</option>
+        <option v-bind:value="200">200 per page</option>
+        <option v-bind:value="500">500 per page</option>
+        <option v-bind:value="1000">1000 per page</option>
+        <option v-bind:value="5000">5000 per page</option>
+      </select>
+    </div><!-- mr-2 -->
+    <hr>
+    <Pagination 
+        v-on:page-update="updatePageHome"
+
+        v-bind:currentPage="currentPage"
+        v-bind:pageSize="pageSize"
+    />
+    <Search />
     <div class="row">
       <div class="col-12">
         <table class="table">
@@ -50,6 +68,8 @@
 </template>
 
 <script>
+import Pagination from './Pagination.vue'
+import Search from './Search.vue'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 
 export default {
@@ -61,8 +81,15 @@ export default {
       sortOrderActive: false,
       sortOrderRegistraded: false,
       sortOrderState: false,
-      sortOrderCountry: false
+      sortOrderCountry: false,
+      currentPage: 0,
+      pageSize: 200,
+      visibleUsers: []
     }
+  },
+  components:{
+    Pagination,
+    Search
   },
   computed: {
     ...mapGetters(['allUsersSorted']),
@@ -71,7 +98,7 @@ export default {
     userInfo(item){
       console.log(item);
     },
-    ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry']),
+    ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry','updatePage','updateVisibleUsers']),
     sortName(){
       this.sortByName();
       this.sortOrderName = !this.sortOrderName;
@@ -95,11 +122,32 @@ export default {
     sortCountry(){
       this.sortByCountry();
       this.sortOrderCountry = !this.sortOrderCountry;
+    },
+    updatePageHome(pageNumber){
+      this.updatePage(pageNumber);
+    },
+    updateVisibleUsersHome(){
+      this.updateVisibleUsers(this.pageSize);
     }
+    // updatePage(pageNumber) {
+    //   this.currentPage = pageNumber;
+    //   this.updateVisibleUsers();
+    // },
+    // updateVisibleUsers() {
+    //   this.visibleUsers = this.allUsersSorted.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
+
+    //   // if we have 0 visible todos, go back a page
+    //   if (this.visibleUsers.length == 0 && this.currentPage > 0) {
+    //     this.updatePage(this.currentPage -1);
+    //   }
+    // },
   },
-  beforeMount() {
+  beforeCreate() {
     // We are calling posts on beforeMounted
     this.$store.dispatch("getPosts");
+  },
+  mounted(){
+    this.updateVisibleUsersHome()
   }
 }
 </script>
