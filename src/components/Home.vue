@@ -69,7 +69,7 @@ export default {
   },
   methods:{
     userInfo(item){
-      console.log(item);
+      // console.log(item);
     },
     ...mapMutations(['sortByName','sortByBalance','sortByActive','sortByState','sortByRegistered','sortByCountry']),
     sortName(){

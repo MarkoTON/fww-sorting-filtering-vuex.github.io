@@ -12,7 +12,8 @@ export default new Vuex.Store({
 		byActive: null,
 		byState: null,
 		byRegistered: null,
-		byCountry: null
+		byCountry: null,
+    filterUserData: []
 	},
 	mutations: {
 		SET_USERS_FROM_API(state, users) {
@@ -39,6 +40,7 @@ export default new Vuex.Store({
         }
 			});
 			state.usersJSON = stateUsers;
+      state.filterUserData = stateUsers;
 		},
 		sortByName(state){
 			var order = !state.byName;
@@ -140,41 +142,47 @@ export default new Vuex.Store({
         }
       });
 		},
-		filterUserJSON: function (state,payload){
-			console.log(payload + ' from mutation')
-			// var pickSearch;
-			// if(pickSearch.option == 'fullName'){
-      //   // console.log(pickSearch.name.toLowerCase());
-      //   return this.visibleTodos.filter((name) => {
-      //     return name.fullName.toLowerCase().match(pickSearch.name)
-      //   });
-      // } else if(pickSearch.option == 'balance'){
-      //   return this.visibleTodos.filter((name) => {
-      //     return name.balance.match(pickSearch.name)
-      //   });
-      // } else if(pickSearch.option == 'state'){
-      //   return this.visibleTodos.filter((name) => {
-      //     return name.name.toLowerCase().match(pickSearch.name)
-      //   });
-      // } else if(pickSearch.option == 'country'){
-      //   return this.visibleTodos.filter((name) => {
-      //     return name.country.toLowerCase().match(pickSearch.name)
-      //   });
-      // } else if(pickSearch.option == 'registered'){
-      //   return this.visibleTodos.filter((name) => {
-      //     return name.registered.match(pickSearch.name)
-      //   });
-      // } else if(pickSearch.option == 'isActive'){
-      //   if(pickSearch.name == 'all'){
-      //     return this.visibleTodos.filter((name) => {
-      //       return name
-      //     });
-      //   } else {
-      //     return this.visibleTodos.filter((name) => {
-      //       return name.isActive == pickSearch.name
-      //     });
-      //   }
-      // }
+		FILTER_USER_JSON: function (state,payload){
+			if(payload.id == 1){
+        var storeFilterData = state.usersJSON.filter((name) => {
+          return name.fullName.toLowerCase().match(payload.text)
+        });
+        state.filterUserData = storeFilterData;
+      } else if(payload.id == 2){
+        var storeFilterData = state.usersJSON.filter((name) => {
+          return name.balance.toLowerCase().match(payload.text)
+        });
+        state.filterUserData = storeFilterData;
+      } else if(payload.id == 4){
+        var storeFilterData = state.usersJSON.filter((name) => {
+          return name.name.toLowerCase().match(payload.text)
+        });
+        state.filterUserData = storeFilterData;
+      } else if(payload.id == 5){
+        var storeFilterData = state.usersJSON.filter((name) => {
+          return name.country.toLowerCase().match(payload.text)
+        });
+        state.filterUserData = storeFilterData;
+      } else if(payload.id == 3){
+        var storeFilterData = state.usersJSON.filter((name) => {
+          return name.registered.toLowerCase().match(payload.text)
+        });
+        state.filterUserData = storeFilterData;
+      } else if(payload.id == 6){
+        if(payload.text == 'all'){
+          state.filterUserData = state.usersJSON;
+        } else if (payload.text == true) {
+          var storeFilterData = state.usersJSON.filter((name) => {
+            return name.isActive == payload.text
+          });
+          state.filterUserData = storeFilterData;
+         } else if(payload.text == false) {
+          var storeFilterData = state.usersJSON.filter((name) => {
+            return name.isActive == payload.text
+          });
+          state.filterUserData = storeFilterData;
+         }
+      }
 		}
 	},
 	actions: {
@@ -185,18 +193,12 @@ export default new Vuex.Store({
 			})
 		},
 		filterUser(context, payload){
-			// console.log(payload + ' from actions')
-			// console.log(context + ' from actions')
-			// context.commit('filterUserJSON', payload)
-      var someData = this.state.usersJSON.filter((name) => {
-        return name.fullName.toLowerCase().match(payload)
-      });
-      console.log(someData)
+			context.commit('FILTER_USER_JSON', payload)
 		}
 	},
 	getters: {
 		allUsersSorted: function (state){
-			return state.usersJSON
+			return state.filterUserData
 		}
 	}
 })

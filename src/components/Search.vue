@@ -1,20 +1,15 @@
 <template>
   <div class="d-flex mb-2">
-    <input type="text" class="form-control mr-1 filterName" v-on:keyup="filterByName" v-model="searchName" placeholder="Name exp: Allyson">
-    <input type="text" class="form-control mr-1 filterBalance" v-model="searchBalance" placeholder="Balance exp: 2,972.88">
-    <select class="form-control mr-1 selectStatus" v-model="isActive" >
-      <option v-bind:value="'all'">Both</option>
-      <option v-bind:value="true">Active</option>
-      <option v-bind:value="false">Not Active</option>
+    <input type="text" class="form-control mr-1 filterName" v-on:keyup="filterByName(searchName)" v-model="searchName.text" placeholder="Name exp: Allyson">
+    <input type="text" class="form-control mr-1 filterBalance" v-on:keyup="filterByName(searchBalance)" v-model="searchBalance.text" placeholder="Balance exp: 2,972.88">
+    <select class="form-control mr-1 selectStatus" v-on:change="filterByName(isActive)" v-model="isActive" >
+      <option v-bind:value="{id: 6, text: 'all'}">Both</option>
+      <option v-bind:value="{id: 6, text: true}">Active</option>
+      <option v-bind:value="{id: 6, text: false}">Not Active</option>
     </select>
-    <input type="date" class="form-control mr-1 filterDate" v-model="searchDate" placeholder="Reg. exp: 2014-02-22T12:35:59">
-    <input type="text" class="form-control mr-1 filterState" v-model="searchState" placeholder="State exp: Colorado">
-    <input type="text" class="form-control filterCountry" v-model="searchCountry" placeholder="State exp: Cyprus">
-
-<button @click="filterUser">zdghvs</button>
-    <!-- <div>
-{{filteredUser}}
-    </div> -->
+    <input type="date" class="form-control mr-1 filterDate" v-on:change="filterByName(searchDate)" v-model="searchDate.text" placeholder="Reg. exp: 2014-02-22T12:35:59">
+    <input type="text" class="form-control mr-1 filterState" v-on:keyup="filterByName(searchState)" v-model="searchState.text" placeholder="State exp: Colorado">
+    <input type="text" class="form-control filterCountry" v-on:keyup="filterByName(searchCountry)" v-model="searchCountry.text" placeholder="State exp: Cyprus">
   </div><!-- d-flex -->
 </template>
 
@@ -25,12 +20,12 @@ export default {
   name:'Search',
   data(){
     return {
-      searchName: '',
-      searchBalance: '',
-      searchDate: '',
-      searchState: '',
-      searchCountry: '',
-      isActive: 'all'
+      searchName: {id: 1,text: ''},
+      searchBalance: {id: 2,text: ''},
+      searchDate: {id: 3,text: ''},
+      searchState: {id: 4,text: ''},
+      searchCountry: {id: 5,text: ''},
+      isActive: {id: 6, text: 'all'}
     }
   },
   computed:{
@@ -42,8 +37,8 @@ export default {
   },
   methods:{
     ...mapActions(['filterUser']),
-    filterByName(){
-      this.filterUser(this.searchName)
+    filterByName(pickSearch){
+      this.filterUser(pickSearch)
     }
     // searchOption(){
     //   if(this.searchName != ''){
