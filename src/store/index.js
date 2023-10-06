@@ -27,9 +27,9 @@ export default new Vuex.Store({
           countryState.push(usersInLoop);
         }
       });
-      
+
       let stateUsers = [];
-      
+
       countryState.forEach(element =>{
         for(let i = 0; i < element.users.length;i++){
           var fixTime = element.users[i].registered.replace("T"," ")
@@ -48,8 +48,8 @@ export default new Vuex.Store({
       var order = !state.byName;
       state.byName = !state.byName;
       state.filterUserData.sort(function (a, b) {
-        var nameA = a.fullName.toUpperCase(); 
-        var nameB = b.fullName.toUpperCase(); 
+        var nameA = a.fullName.toUpperCase();
+        var nameB = b.fullName.toUpperCase();
         if(order){
           if (nameA < nameB) {
             return -1;
@@ -93,8 +93,8 @@ export default new Vuex.Store({
       var order = state.byRegistered;
       state.byRegistered = !state.byRegistered;
       state.filterUserData.sort(function (a, b) {
-        var registeredA = a.registered; 
-        var registeredB = b.registered; 
+        var registeredA = a.registered;
+        var registeredB = b.registered;
         if(order){
           return new Date(registeredB) - new Date(registeredA);
         } else {
@@ -106,8 +106,8 @@ export default new Vuex.Store({
       var order = !state.byState;
       state.byState = !state.byState;
       state.filterUserData.sort(function (a, b) {
-        var stateA = a.name.toUpperCase(); 
-        var stateB = b.name.toUpperCase(); 
+        var stateA = a.name.toUpperCase();
+        var stateB = b.name.toUpperCase();
         if(order){
           if (stateA < stateB) {
             return -1;
@@ -127,8 +127,8 @@ export default new Vuex.Store({
       var order = !state.byCountry;
       state.byCountry = !state.byCountry;
       state.filterUserData.sort(function (a, b) {
-        var countryA = a.country.toUpperCase(); 
-        var countryB = b.country.toUpperCase(); 
+        var countryA = a.country.toUpperCase();
+        var countryB = b.country.toUpperCase();
         if(order){
           if (countryA < countryB) {
             return -1;
@@ -203,7 +203,7 @@ export default new Vuex.Store({
   },
   actions: {
     getPosts({ commit }) {
-      axios.get('https://fww-demo.herokuapp.com/')
+      axios.get('https://raw.githubusercontent.com/MarkoTON/json-data-to-play.github.io/main/bigJsonFileOfUsers.json')
       .then(response => {
         commit('SET_USERS_FROM_API', response.data)
       })
